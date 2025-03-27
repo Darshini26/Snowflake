@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
-      REPO_NAME: "devops.common.snowflake_devops_git_repo"
+      REPO_NAME: "devops.common.git_repo"
       # Read connection secrets
       SNOWFLAKE_CONNECTIONS_DEFAULT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
       SNOWFLAKE_CONNECTIONS_DEFAULT_USER: ${{ secrets.SNOWFLAKE_USER }}
