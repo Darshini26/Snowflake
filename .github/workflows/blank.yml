@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
-      REPO_NAME: "devops.common.git_repo"
+      REPO_NAME: "DEVOPS.COMMON.git_repo"
       # Read connection secrets
       SNOWFLAKE_CONNECTIONS_DEFAULT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
       SNOWFLAKE_CONNECTIONS_DEFAULT_USER: ${{ secrets.SNOWFLAKE_USER }}
@@ -49,7 +49,7 @@ jobs:
             RETENTION_TIME=0
           fi
           snow git execute \
-            "@${REPO_NAME}/branches/dev/scripts/0*" \
+            "@${REPO_NAME}/branches/dev/Scripts/*" \
             -D "environment='dev'" \
             -D "retention_time=${RETENTION_TIME}"
 
@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
-      REPO_NAME: "devops.common.snowflake_devops_git_repo"
+      REPO_NAME: "DEVOPS.COMMON.git_repo"
       # Read connection secrets
       SNOWFLAKE_CONNECTIONS_DEFAULT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
       SNOWFLAKE_CONNECTIONS_DEFAULT_USER: ${{ secrets.SNOWFLAKE_USER }}
@@ -124,6 +124,6 @@ jobs:
             RETENTION_TIME=0
           fi
           snow git execute \
-            "@${REPO_NAME}/branches/prod/scripts/0*" \
+            "@${REPO_NAME}/branches/prod/Scripts/*" \
             -D "environment='prod'" \
             -D "retention_time=${RETENTION_TIME}"
