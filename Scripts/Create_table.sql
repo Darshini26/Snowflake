@@ -9,3 +9,4 @@ DATE DATE,
 VALUE FLOAT
 )
 DATA_RETENTION_TIME_IN_DAYS = {{retention_time}};
+
