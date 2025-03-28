@@ -1,0 +1,101 @@
+name: Deploy Snowflake Notebooks
+
+on:
+  push:
+    branches:
+      - dev  # 🚀 Auto-deploy notebooks when pushed to dev
+  workflow_dispatch:  # ✅ Allow manual execution
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-22.04
+    env:
+      REPO_NAME: "DEVOPS.COMMON.git_repo"
+      SNOWFLAKE_CONNECTIONS_DEFAULT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_CONNECTIONS_DEFAULT_USER: ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_CONNECTIONS_DEFAULT_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      SNOWFLAKE_CONNECTIONS_DEFAULT_DATABASE: devops
+      SNOWFLAKE_CONNECTIONS_DEFAULT_SCHEMA: common 
+      SNOWFLAKE_CONNECTIONS_DEFAULT_WAREHOUSE: COMPUTE_WH
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Snowflake CLI
+        uses: Snowflake-Labs/snowflake-cli-action@v1.5
+        with:
+          cli-version: "latest"
+          default-config-file-path: "config.toml"
+
+      - name: Fetch repository changes
+        run: snow git fetch "${REPO_NAME}"
+
+      - name: Deploy Snowflake notebooks to dev
+        run: |
+          snow notebook create DEV_NOTEBOOK \
+            -f "@${REPO_NAME}/branches/dev/notebooks/dev_notebook.ipynb"
+
+---
+  manual-approval:
+    name: Manual Approval for Prod Deployment
+    runs-on: ubuntu-latest
+    needs: deploy-dev
+    if: success() 
+
+    permissions:
+      issues: write
+          
+    steps:
+      - name: Await Manual Approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: Darshini26  # ✅ Replace with your GitHub username
+          minimum-approvals: 1
+          issue-title: "Approval Required: Deploy Notebooks to Production"
+          issue-body: "Please approve or deny the deployment to prod."
+
+---
+  merge-branch:
+    needs: manual-approval    
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: everlytic/branch-merge@1.1.2
+        with:
+          github_token: ${{ github.token }}
+          source_ref: dev
+          target_branch: prod
+          commit_message_template: '[Automated] Merged {source_ref} into {target_branch}'
+
+---
+  deploy-prod:
+    needs: merge-branch
+    runs-on: ubuntu-22.04
+    env:
+      REPO_NAME: "DEVOPS.COMMON.git_repo"
+      SNOWFLAKE_CONNECTIONS_DEFAULT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_CONNECTIONS_DEFAULT_USER: ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_CONNECTIONS_DEFAULT_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}  
+      SNOWFLAKE_CONNECTIONS_DEFAULT_DATABASE: devops
+      SNOWFLAKE_CONNECTIONS_DEFAULT_SCHEMA: common 
+      SNOWFLAKE_CONNECTIONS_DEFAULT_WAREHOUSE: COMPUTE_WH         
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Snowflake CLI
+        uses: Snowflake-Labs/snowflake-cli-action@v1.5
+        with:
+          cli-version: "latest"
+          default-config-file-path: "config.toml"
+
+      - name: Fetch repository changes
+        run: snow git fetch "${REPO_NAME}"
+
+      - name: Deploy Snowflake notebooks to prod
+        run: |
+          snow notebook create PROD_NOTEBOOK \
+            -f "@${REPO_NAME}/branches/prod/notebooks/prod_notebook.ipynb"
