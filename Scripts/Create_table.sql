@@ -25,7 +25,7 @@ name varchar
 ;
 create  OR ALTER table {{environment}}.test.test31
 (
-id varchar,
-name varchar
+id_local_change varchar,
+name_local_change varchar
 )
 ;
