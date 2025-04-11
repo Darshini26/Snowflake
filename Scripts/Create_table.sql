@@ -12,7 +12,7 @@ DATA_RETENTION_TIME_IN_DAYS = {{retention_time}};
 
 create  OR ALTER table {{environment}}.test.test1
 (
-id varchar,
+id varchar(10),
 name varchar
 )
 ;
