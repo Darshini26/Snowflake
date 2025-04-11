@@ -10,3 +10,22 @@ VALUE FLOAT
 )
 DATA_RETENTION_TIME_IN_DAYS = {{retention_time}};
 
+create table {{environment}}.test.test1
+(
+id varchar,
+name varchar
+)
+;
+
+create table {{environment}}.test.test2
+(
+id varchar,
+name varchar
+)
+;
+create table {{environment}}.test.test3
+(
+id varchar,
+name varchar
+)
+;
