@@ -10,7 +10,7 @@ VALUE FLOAT
 )
 DATA_RETENTION_TIME_IN_DAYS = {{retention_time}};
 
-create  OR ALTER table {{environment}}.test.test1
+create  OR ALTER table {{environment}}.test.test_new_change
 (
 id varchar(50),
 name varchar
