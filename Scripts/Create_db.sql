@@ -1,3 +1,5 @@
 CREATE OR ALTER DATABASE {{environment}};
 CREATE OR ALTER SCHEMA {{environment}}.LOAD;
+create schema {{environment}}.remote_test;
+
 create schema {{environment}}.test;
