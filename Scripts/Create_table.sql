@@ -23,7 +23,7 @@ id varchar,
 name varchar
 )
 ;
-create table {{environment}}.test.test3
+create table {{environment}}.test.test3_remote
 (
 id varchar,
 name varchar
