@@ -23,7 +23,7 @@ id_local_change varchar,
 name_local_change varchar
 )
 ;
-create  OR ALTER table {{environment}}.test.test31
+create  OR ALTER table {{environment}}.test.test31_remote
 (
 id_local_change varchar,
 name_local_change varchar
