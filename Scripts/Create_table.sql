@@ -19,8 +19,8 @@ name varchar
 
 create  OR ALTER table {{environment}}.test.test21_new_change
 (
-id varchar,
-name varchar
+id_local_change varchar,
+name_local_change varchar
 )
 ;
 create  OR ALTER table {{environment}}.test.test31
