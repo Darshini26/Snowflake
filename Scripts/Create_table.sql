@@ -17,13 +17,13 @@ name varchar
 )
 ;
 
-create table {{environment}}.test.test2
+create  OR ALTER table {{environment}}.test.test2
 (
 id varchar,
 name varchar
 )
 ;
-create table {{environment}}.test.test3
+create  OR ALTER table {{environment}}.test.test3
 (
 id varchar,
 name varchar
