@@ -23,7 +23,7 @@ id varchar,
 name varchar
 )
 ;
-create  OR ALTER table {{environment}}.test.test3
+create  OR ALTER table {{environment}}.test.test31
 (
 id varchar,
 name varchar
