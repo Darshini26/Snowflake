@@ -10,3 +10,6 @@ create or alter schema {{environment}}.test101;
 create  OR ALTER schema {{environment}}.test201;
 
 create  OR ALTER schema {{environment}}.test_214;
+
+create  OR ALTER schema {{environment}}.test_214_test;
+
